@@ -1,13 +1,12 @@
 package ch.challenge.boatsvc.core.common.service;
 
-import ch.challenge.boatsvc.core.common.domain.AbstractDomain;
+import ch.challenge.boatsvc.core.api.boat.Boat;
 import ch.challenge.boatsvc.core.common.exception.BoatException;
 import ch.challenge.boatsvc.core.common.model.AbstractBaseEntity;
 import java.util.List;
-import java.util.Optional;
 import javax.transaction.Transactional;
 
-public interface GenericService<T, E extends AbstractBaseEntity, D extends AbstractDomain> {
+public interface GenericService<E extends AbstractBaseEntity, D extends Boat> {
 
   /**
    * Convert a list of beans entities to a list of DTO.
@@ -39,7 +38,7 @@ public interface GenericService<T, E extends AbstractBaseEntity, D extends Abstr
    * @param id
    * @return
    */
-  boolean exists(final T id);
+  boolean exists(final Long id);
 
   /**
    * Check if it exists
@@ -82,7 +81,16 @@ public interface GenericService<T, E extends AbstractBaseEntity, D extends Abstr
    * @return
    */
   @Transactional
-  Optional<E> findById(final T id);
+  E findById(final Long id);
+
+  /**
+   * Find a single instance by its ID
+   *
+   * @param id the ID
+   * @return
+   */
+  @Transactional
+  D findOne(final Long id);
 
   /**
    * Remove an instance by its ID
@@ -91,7 +99,7 @@ public interface GenericService<T, E extends AbstractBaseEntity, D extends Abstr
    * @return deleted DTO or null if action failed
    */
   @Transactional
-  D delete(final T id) throws BoatException;
+  D delete(final Long id) throws BoatException;
 
   /**
    * Update a given instance

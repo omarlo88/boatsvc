@@ -1,7 +1,13 @@
 package ch.challenge.boatsvc;
 
+import ch.challenge.boatsvc.core.api.boat.Boat;
+import ch.challenge.boatsvc.core.api.boat.BoatService;
+import java.math.BigDecimal;
+import java.util.List;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class BoatAppApplication {
@@ -10,4 +16,33 @@ public class BoatAppApplication {
 		SpringApplication.run(BoatAppApplication.class, args);
 	}
 
+	@Bean
+	CommandLineRunner run(BoatService boatService) {
+		return args -> {
+			final Boat boat1 = Boat.builder()
+					.name("Boat 1")
+					.description("Description...")
+					.priceDutyFree(BigDecimal.valueOf(15000L))
+					.build();
+
+			final Boat boat2 = Boat.builder()
+					.name("Boat 2")
+					.description("Description...")
+					.priceDutyFree(BigDecimal.valueOf(15000L))
+					.build();
+
+			final Boat boat3 = Boat.builder()
+					.name("Boat 3")
+					.description("Description...")
+					.priceDutyFree(BigDecimal.valueOf(15000L))
+					.build();
+
+			final Boat boat4 = Boat.builder()
+					.name("Boat 4")
+					.description("Description...")
+					.priceDutyFree(BigDecimal.valueOf(15000L))
+					.build();
+			boatService.createAll(List.of(boat1, boat2, boat3, boat4));
+		};
+	}
 }

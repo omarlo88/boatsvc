@@ -22,6 +22,6 @@ public interface BoatMapper {
 
     final BigDecimal price = bean.getPrice();
     return
-        Objects.nonNull(price) ? BigDecimal.valueOf(price.doubleValue() * 7.7/100) : BigDecimal.ZERO;
+        Objects.nonNull(price) ? BigDecimal.valueOf(price.doubleValue() * 1.077) : BigDecimal.ZERO;
   }
 }

@@ -5,13 +5,12 @@ import ch.challenge.boatsvc.core.common.service.GenericService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
-public class BoatService implements GenericService<Long, BoatEntity, Boat> {
+public class BoatService implements GenericService<BoatEntity, Boat> {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(BoatService.class);
 
@@ -87,18 +86,24 @@ public class BoatService implements GenericService<Long, BoatEntity, Boat> {
   }
 
   @Override
-  public Optional<BoatEntity> findById(Long id) {
+  public BoatEntity findById(Long id) {
     if (Objects.isNull(id)) {
-      return Optional.empty();
+      return null;
     }
 
-    return this.boatRepository.findById(id);
+    return this.boatRepository.findById(id).orElse(null);
+  }
+
+  @Override
+  public Boat findOne(Long id) {
+    final BoatEntity bean = this.findById(id);
+    return this.toDto(bean);
   }
 
   @Override
   public Boat delete(Long id) throws BoatException {
     this.verifyBeforeDelete(id);
-    final BoatEntity bean = this.findById(id).orElseThrow(RuntimeException::new);
+    final BoatEntity bean = this.findById(id);
     this.boatRepository.deleteById(id);
     return this.toDto(bean);
   }

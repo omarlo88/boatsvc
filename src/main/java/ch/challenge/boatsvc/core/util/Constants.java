@@ -8,5 +8,5 @@ public class Constants {
   // Prefix naming database
   public static final String DB_NAMING_PREFIX = "CHA_";
 
-  public static final String PK_NAME_SUFFIX = "_ID";
+  public static final String PK_NAME_SUFFIX = "ID";
 }
