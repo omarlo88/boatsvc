@@ -43,11 +43,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-rest</artifactId>
-		</dependency>
-
-		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
@@ -71,6 +66,7 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>${project.parent.version}</version>
 				<configuration>
 					<excludes>
 						<exclude>
@@ -87,7 +83,6 @@
 				<configuration>
 					<source>${java.version}</source> <!-- depending on your project -->
 					<target>${java.version}</target> <!-- depending on your project -->
-					<!--				<generatedSourcesDirectory>${mapstruct.outputdir}</generatedSourcesDirectory>-->
 					<annotationProcessorPaths>
 						<path>
 							<groupId>org.projectlombok</groupId>
