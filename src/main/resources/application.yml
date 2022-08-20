@@ -31,3 +31,5 @@ spring:
 #  sql:
 #    init:
 #      platform: org.h2.Driver
+server:
+  port: 8082

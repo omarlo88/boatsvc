@@ -11,7 +11,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,7 +21,6 @@ import lombok.ToString;
 @Getter
 @Setter
 @Entity
-@Builder
 @ToString
 @Table(name = BoatEntity.TBL_NAME)
 @AttributeOverride(name = DEFAULT_PK, column = @Column(name = BoatEntity.COLUMN_ID_NAME))
@@ -36,7 +34,7 @@ public class BoatEntity extends AbstractBaseEntity {
 
   static final String COLUMN_PREFIX = DB_NAMING_PREFIX + TABLE_PREFIX;
 
-  @Column(name = COLUMN_PREFIX + "NAME", nullable = false, unique = true, length = 50)
+  @Column(name = COLUMN_PREFIX + "NAME", nullable = false, length = 50)
   private String name;
 
   @Column(name = COLUMN_PREFIX + "DESCRIPTION", nullable = false, length = 4000)
