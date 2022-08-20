@@ -2,6 +2,9 @@ package ch.challenge.boatsvc;
 
 import ch.challenge.boatsvc.core.api.boat.Boat;
 import ch.challenge.boatsvc.core.api.boat.BoatService;
+import ch.challenge.boatsvc.core.api.user.EnumRole;
+import ch.challenge.boatsvc.core.api.user.User;
+import ch.challenge.boatsvc.core.api.user.UserService;
 import java.math.BigDecimal;
 import java.util.List;
 import org.springframework.boot.CommandLineRunner;
@@ -17,7 +20,7 @@ public class BoatAppApplication {
 	}
 
 	@Bean
-	CommandLineRunner run(BoatService boatService) {
+	CommandLineRunner run(BoatService boatService, UserService userService) {
 		return args -> {
 			final Boat boat1 = Boat.builder()
 					.name("Boat 1")
@@ -43,6 +46,34 @@ public class BoatAppApplication {
 					.priceDutyFree(BigDecimal.valueOf(15000L))
 					.build();
 			boatService.createAll(List.of(boat1, boat2, boat3, boat4));
+
+			final User user1 = User.builder()
+					.username("OLO")
+					.email("olo@gmail.com")
+					.role(EnumRole.ADMIN)
+					.firstName("Omar")
+					.lastName("Lo")
+					.password("123")
+					.build();
+
+			final User test1 = User.builder()
+					.username("TEST1")
+					.email("test1@gmail.com")
+					.role(EnumRole.USER)
+					.firstName("Test1")
+					.lastName("Test1")
+					.password("123")
+					.build();
+
+			final User test2 = User.builder()
+					.username("TEST2")
+					.email("test2@gmail.com")
+					.role(EnumRole.ANONYMOUS)
+					.firstName("Test2")
+					.lastName("Test2")
+					.password("123")
+					.build();
+			userService.createAll(List.of(user1, test1, test2));
 		};
 	}
 }

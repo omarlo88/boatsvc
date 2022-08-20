@@ -1,12 +1,12 @@
 package ch.challenge.boatsvc.core.common.service;
 
-import ch.challenge.boatsvc.core.api.boat.Boat;
-import ch.challenge.boatsvc.core.common.exception.BoatException;
-import ch.challenge.boatsvc.core.common.model.AbstractBaseEntity;
+import ch.challenge.boatsvc.core.common.domain.AbstractDomain;
+import ch.challenge.boatsvc.core.common.exception.BaseException;
+import ch.challenge.boatsvc.core.common.model.AbstractEntity;
 import java.util.List;
 import javax.transaction.Transactional;
 
-public interface GenericService<E extends AbstractBaseEntity, D extends Boat> {
+public interface GenericService<T, E extends AbstractEntity<T>, D extends AbstractDomain<T>> {
 
   /**
    * Convert a list of beans entities to a list of DTO.
@@ -38,7 +38,7 @@ public interface GenericService<E extends AbstractBaseEntity, D extends Boat> {
    * @param id
    * @return
    */
-  boolean exists(final Long id);
+  boolean exists(final T id);
 
   /**
    * Check if it exists
@@ -63,7 +63,7 @@ public interface GenericService<E extends AbstractBaseEntity, D extends Boat> {
    * @return the created DTO or null if action failed
    */
   @Transactional
-  D create(final D dto) throws BoatException;
+  D create(final D dto) throws BaseException;
 
   /**
    * Create all new instances
@@ -72,7 +72,7 @@ public interface GenericService<E extends AbstractBaseEntity, D extends Boat> {
    * @return the created DTOs or an empty list if action failed
    */
   @Transactional
-  List<D> createAll(final List<D> dtos) throws BoatException;
+  List<D> createAll(final List<D> dtos) throws BaseException;
 
   /**
    * Find a single instance by its ID
@@ -81,7 +81,7 @@ public interface GenericService<E extends AbstractBaseEntity, D extends Boat> {
    * @return
    */
   @Transactional
-  E findById(final Long id);
+  E findById(final T id);
 
   /**
    * Find a single instance by its ID
@@ -90,7 +90,7 @@ public interface GenericService<E extends AbstractBaseEntity, D extends Boat> {
    * @return
    */
   @Transactional
-  D findOne(final Long id);
+  D findOne(final T id);
 
   /**
    * Remove an instance by its ID
@@ -99,7 +99,7 @@ public interface GenericService<E extends AbstractBaseEntity, D extends Boat> {
    * @return deleted DTO or null if action failed
    */
   @Transactional
-  D delete(final Long id) throws BoatException;
+  D delete(final T id) throws BaseException;
 
   /**
    * Update a given instance
@@ -108,5 +108,5 @@ public interface GenericService<E extends AbstractBaseEntity, D extends Boat> {
    * @return updated DTO or null if action failed
    */
   @Transactional
-  D update(D dto) throws BoatException;
+  D update(D dto) throws BaseException;
 }

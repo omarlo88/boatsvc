@@ -1,6 +1,9 @@
 package ch.challenge.boatsvc.core.api.boat;
 
-import ch.challenge.boatsvc.core.common.exception.BoatException;
+import ch.challenge.boatsvc.core.common.exception.BaseException;
+import ch.challenge.boatsvc.core.jsonview.View.BoatDetail;
+import ch.challenge.boatsvc.core.jsonview.View.BoatList;
+import com.fasterxml.jackson.annotation.JsonView;
 import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
@@ -40,14 +43,14 @@ public class BoatController {
   }
 
   @GetMapping
-//  @JsonView({BoatList.class})
+  @JsonView({BoatList.class})
   public ResponseEntity<List<Boat>> findAll() {
     final List<Boat> all = this.boatService.findAll();
     return ResponseEntity.ok(all);
   }
 
   @GetMapping("/{id}")
-//  @JsonView({BoatDetail.class})
+  @JsonView({BoatDetail.class})
   public ResponseEntity<Boat> findById(@PathVariable("id") @NotNull Long id) {
     if (id < 1) {
       final String error = "ID les than 1";
@@ -70,7 +73,7 @@ public class BoatController {
   }
 
   @PostMapping
-//  @JsonView({BoatDetail.class})
+  @JsonView({BoatDetail.class})
   public ResponseEntity<Boat> create(@RequestBody @Valid Boat dto) {
     final Boat created;
     try {
@@ -78,7 +81,7 @@ public class BoatController {
       created = this.boatService.create(dto);
       LOGGER.debug("[create] method invoked for boats with currentTime : {}", Instant.now());
 
-    } catch (BoatException e) {
+    } catch (BaseException e) {
       LOGGER.error("[create] method not possible: {}", e.getLocalizedMessage());
       return ResponseEntity.badRequest().build();
     }
@@ -87,7 +90,7 @@ public class BoatController {
   }
 
   @DeleteMapping("/{id}")
-//  @JsonView({BoatDetail.class})
+  @JsonView({BoatDetail.class})
   public ResponseEntity<Boat> delete(@PathVariable("id") @NotNull Long id) {
     if (id == 0) {
       final String error = "ID equals Zero";
@@ -107,7 +110,7 @@ public class BoatController {
       deleted = this.boatService.delete(id);
       LOGGER.debug("[delete] method invoked for boats with currentTime : {}", Instant.now());
 
-    } catch (BoatException e) {
+    } catch (BaseException e) {
       final String error = "Remove error";
       final String msg =
           "Delete not possible : Boat exists but the action does not be achieved ! %s";
@@ -119,7 +122,7 @@ public class BoatController {
   }
 
   @PutMapping("/{id}")
-//  @JsonView({BoatDetail.class})
+  @JsonView({BoatDetail.class})
   public ResponseEntity<Boat> update(@PathVariable("id") @NotNull Long id,
       @Valid @RequestBody Boat dto) {
     final Long dtoId = dto.getId();
@@ -149,7 +152,7 @@ public class BoatController {
 
       updated = this.boatService.update(dto);
       LOGGER.debug("[update] method invoked for boats with currentTime : {}", Instant.now());
-    } catch (BoatException be) {
+    } catch (BaseException be) {
       LOGGER.error("[update] method not possible: {}", be.getLocalizedMessage());
       return ResponseEntity.badRequest().build();
     }
