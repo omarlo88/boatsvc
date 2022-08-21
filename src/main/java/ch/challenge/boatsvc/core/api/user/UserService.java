@@ -7,21 +7,24 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import javax.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
+@AllArgsConstructor
 public class UserService implements GenericService<Long, UserEntity, User>, UserRepositoryCustom {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
 
   private final UserRepository userRepository;
   private final UserMapper userMapper;
+  private final PasswordEncoder passwordEncoder;
 
-  public UserService(UserRepository userRepository, UserMapper userMapper) {
-    this.userRepository = userRepository;
-    this.userMapper = userMapper;
+  public Optional<User> getUserByUsername(@NotNull final String userName) {
+    return this.findByUsername(userName).map(this::toDto);
   }
 
   @Override
@@ -106,8 +109,8 @@ public class UserService implements GenericService<Long, UserEntity, User>, User
   }
 
   @Override
-  public Optional<UserEntity> findByUsername(String userName) {
-    return Optional.empty();
+  public Optional<UserEntity> findByUsername(@NotNull final String userName) {
+    return this.userRepository.findByUsername(userName);
   }
 
   // Private methods /////////////////////////////////////////////////////////////////////////////
@@ -120,7 +123,7 @@ public class UserService implements GenericService<Long, UserEntity, User>, User
       LOGGER.error(error);
       throw new BaseException(error);
     }
-
+    object.setPassword(this.passwordEncoder.encode(object.getPassword()));
     return object;
   }
 

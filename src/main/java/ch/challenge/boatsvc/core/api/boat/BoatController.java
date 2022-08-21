@@ -12,6 +12,7 @@ import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/boats")
 @CrossOrigin(origins = "http://localhost:4200/", maxAge = 3600)
+@PreAuthorize("hasAnyRole('ADMIN')")
 public class BoatController {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(BoatController.class);

@@ -48,7 +48,7 @@ public class BoatAppApplication {
 			boatService.createAll(List.of(boat1, boat2, boat3, boat4));
 
 			final User user1 = User.builder()
-					.username("OLO")
+					.username("olo")
 					.email("olo@gmail.com")
 					.role(EnumRole.ADMIN)
 					.firstName("Omar")

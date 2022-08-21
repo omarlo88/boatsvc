@@ -3,6 +3,13 @@ spring:
     name: Boatsvc
   datasource:
     url: jdbc:h2:mem:db_boat
+
+jwt:
+  secret-key: 'test'
+  token-expiration-after-days: 10
+  token-refresh-expiration-after-days: 30
+  token-prefix: 'Bearer '
+
 logging.level:
   ch.challenge: debug
 ---
