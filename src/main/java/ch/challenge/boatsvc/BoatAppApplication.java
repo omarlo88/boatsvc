@@ -57,7 +57,7 @@ public class BoatAppApplication {
 					.build();
 
 			final User test1 = User.builder()
-					.username("TEST1")
+					.username("test1")
 					.email("test1@gmail.com")
 					.role(EnumRole.USER)
 					.firstName("Test1")
@@ -66,7 +66,7 @@ public class BoatAppApplication {
 					.build();
 
 			final User test2 = User.builder()
-					.username("TEST2")
+					.username("test2")
 					.email("test2@gmail.com")
 					.role(EnumRole.ANONYMOUS)
 					.firstName("Test2")
