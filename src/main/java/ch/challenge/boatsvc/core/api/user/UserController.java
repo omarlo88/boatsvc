@@ -2,6 +2,7 @@ package ch.challenge.boatsvc.core.api.user;
 
 import ch.challenge.boatsvc.configuration.annotations.RolesAllowedAdmin;
 import ch.challenge.boatsvc.configuration.annotations.RolesAllowedAnonymous;
+import ch.challenge.boatsvc.configuration.annotations.RolesAllowedUser;
 import ch.challenge.boatsvc.core.common.exception.BaseException;
 import ch.challenge.boatsvc.core.jsonview.View.UserDetail;
 import ch.challenge.boatsvc.core.jsonview.View.UserList;
@@ -10,6 +11,7 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
 import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -50,6 +53,16 @@ public class UserController {
   public ResponseEntity<List<User>> findAll() {
     final List<User> all = this.userService.findAll();
     return ResponseEntity.ok(all);
+  }
+
+  @GetMapping("/user-authenticated")
+  @JsonView({UserDetail.class})
+  @RolesAllowedUser
+  public ResponseEntity<User> findByUsername(@RequestParam("username") @NotEmpty String username) {
+    LOGGER.debug("[findByUsername] method invoked for boats with currentTime : {}", Instant.now());
+    return this.userService.getUserByUsername(username)
+        .map(ResponseEntity::ok)
+        .orElse(ResponseEntity.notFound().build());
   }
 
   @GetMapping("/{id}")
@@ -167,6 +180,6 @@ public class UserController {
   @GetMapping("/refresh")
   @JsonView({UserDetail.class})
   public ResponseEntity<Void> refrestToken(@RequestBody @Valid User dto) {
-    return null;
+    return ResponseEntity.noContent().build();
   }
 }

@@ -35,7 +35,6 @@ public class User extends AbstractBaseDomain {
       = "Username must be between 3 and 25 characters")
   private String username;
 
-  @JsonView({UserDetail.class})
   @Exclude
   @NotEmpty
   private String password;

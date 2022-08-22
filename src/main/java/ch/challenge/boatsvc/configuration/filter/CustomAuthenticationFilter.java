@@ -54,8 +54,9 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
       FilterChain chain, Authentication authentication) throws IOException, ServletException {
     User userSpring = (User) authentication.getPrincipal();
 
+    final String username = userSpring.getUsername();
     String access_token = JWT.create()
-        .withSubject(userSpring.getUsername())
+        .withSubject(username)
 //        .withExpiresAt(java.sql.Date.valueOf(
 //            LocalDate.now().plusDays(this.jwtPropertiesConfig.getTokenExpirationAfterDays())))
         .withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000))
@@ -65,7 +66,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         .sign(Algorithm.HMAC256(this.jwtPropertiesConfig.getSecretKey().getBytes()));
 
     String reflesh_token = JWT.create()
-        .withSubject(userSpring.getUsername())
+        .withSubject(username)
         .withExpiresAt(java.sql.Date.valueOf(LocalDate.now()
             .plusDays(this.jwtPropertiesConfig.getTokenRefreshExpirationAfterDays())))
         .withIssuer(request.getRequestURL().toString())
@@ -76,6 +77,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
     Map<String, String> tokens = new HashMap<>();
     tokens.put("access_token", access_token);
     tokens.put("reflesh_token", reflesh_token);
+    tokens.put("username", username);
     response.setContentType(APPLICATION_JSON_VALUE);
     new ObjectMapper().writeValue(response.getOutputStream(), tokens);
   }
