@@ -48,13 +48,13 @@ public class RefreshTokenController {
       throw new RuntimeException("");
     }
 
-    String reflesh_token = authorizationHeader.substring(
+    String refresh_token = authorizationHeader.substring(
         this.jwtPropertiesConfig.getTokenPrefix().length());
 
     try {
       JWTVerifier verifier = JWT.require(
           Algorithm.HMAC256(this.jwtPropertiesConfig.getSecretKey().getBytes())).build();
-      DecodedJWT decodedJWT = verifier.verify(reflesh_token);
+      DecodedJWT decodedJWT = verifier.verify(refresh_token);
       String username = decodedJWT.getSubject();
       this.userService.getUserByUsername(username).map(user -> {
             final String userUsername = user.getUsername();
@@ -66,9 +66,8 @@ public class RefreshTokenController {
                 .sign(Algorithm.HMAC256(this.jwtPropertiesConfig.getSecretKey().getBytes()));
 
             Map<String, String> tokens = new HashMap<>();
-            tokens.put("access_token", access_token);
-            tokens.put("reflesh_token", reflesh_token);
-            tokens.put("username", userUsername);
+            tokens.put("accessToken", access_token);
+            tokens.put("refreshToken", refresh_token);
             response.setContentType(APPLICATION_JSON_VALUE);
             try {
               new ObjectMapper().writeValue(response.getOutputStream(), tokens);

@@ -65,7 +65,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
             userSpring.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList())
         .sign(Algorithm.HMAC256(this.jwtPropertiesConfig.getSecretKey().getBytes()));
 
-    String reflesh_token = JWT.create()
+    String refresh_token = JWT.create()
         .withSubject(username)
         .withExpiresAt(java.sql.Date.valueOf(LocalDate.now()
             .plusDays(this.jwtPropertiesConfig.getTokenRefreshExpirationAfterDays())))
@@ -73,11 +73,10 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         .sign(Algorithm.HMAC256(this.jwtPropertiesConfig.getSecretKey().getBytes()));
 
 //    response.setHeader("access_token", access_token);
-//    response.setHeader("reflesh_token", reflesh_token);
+//    response.setHeader("refresh_token", refresh_token);
     Map<String, String> tokens = new HashMap<>();
-    tokens.put("access_token", access_token);
-    tokens.put("reflesh_token", reflesh_token);
-    tokens.put("username", username);
+    tokens.put("accessToken", access_token);
+    tokens.put("refreshToken", refresh_token);
     response.setContentType(APPLICATION_JSON_VALUE);
     new ObjectMapper().writeValue(response.getOutputStream(), tokens);
   }
