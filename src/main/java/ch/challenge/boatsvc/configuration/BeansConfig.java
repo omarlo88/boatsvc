@@ -23,6 +23,7 @@ public class BeansConfig {
     configuration.setAllowedOrigins(List.of("http://localhost:4200"));
     configuration.addAllowedMethod("*");
     configuration.addAllowedHeader("*");
+    configuration.setAllowCredentials(true);
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
     source.registerCorsConfiguration("/**", configuration);
     return source;
