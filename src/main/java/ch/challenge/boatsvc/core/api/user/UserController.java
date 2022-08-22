@@ -11,11 +11,12 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
 import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,7 +24,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -58,9 +58,10 @@ public class UserController {
   @GetMapping("/user-authenticated")
   @JsonView({UserDetail.class})
   @RolesAllowedUser
-  public ResponseEntity<User> findByUsername(@RequestParam("username") @NotEmpty String username) {
+  public ResponseEntity<User> findBUserAuthenticated() {
+    final Authentication authentication = this.getAuthentication();
     LOGGER.debug("[findByUsername] method invoked for boats with currentTime : {}", Instant.now());
-    return this.userService.getUserByUsername(username)
+    return this.userService.getUserByUsername(authentication.getName())
         .map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());
   }
@@ -177,9 +178,7 @@ public class UserController {
     return ResponseEntity.ok(updated);
   }
 
-  @GetMapping("/refresh")
-  @JsonView({UserDetail.class})
-  public ResponseEntity<Void> refrestToken(@RequestBody @Valid User dto) {
-    return ResponseEntity.noContent().build();
+  private Authentication getAuthentication() {
+    return SecurityContextHolder.getContext().getAuthentication();
   }
 }
