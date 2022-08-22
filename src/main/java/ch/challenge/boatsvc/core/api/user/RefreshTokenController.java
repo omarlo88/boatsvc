@@ -11,8 +11,6 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -22,10 +20,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -86,12 +80,6 @@ public class RefreshTokenController {
           })
           .orElseThrow(RuntimeException::new);
 
-      final List<String> roles = decodedJWT.getClaims().get("roles").asList(String.class);
-      Collection<GrantedAuthority> authorities = new ArrayList<>();
-      roles.forEach(role -> authorities.add(new SimpleGrantedAuthority(role)));
-      UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-          username, null, authorities);
-      SecurityContextHolder.getContext().setAuthentication(authenticationToken);
     } catch (Exception ex) {
       final String localizedMessage = ex.getLocalizedMessage();
       LOGGER.error("Error from verify refresh token {} :", localizedMessage);

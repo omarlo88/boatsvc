@@ -15,7 +15,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
 @EnableConfigurationProperties({JwtPropertiesConfig.class})
 public class SecurityConfig {
 
@@ -23,7 +23,7 @@ public class SecurityConfig {
       // -- Login page spring
       "/boatsvc/api/login",
       // --refresh-token
-      "/boatsvc/api/token",
+      "/api/token",
       // -- h2 path
       "/h2/**",
       // other public endpoints of your API may be appended to this array
