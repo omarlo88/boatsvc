@@ -27,7 +27,7 @@ public class CustomUserDetailsService implements UserDetailsService {
           LOGGER.info("User found in database: {}", user.getFullName());
 
           Collection<GrantedAuthority> authorities = List.of(
-              new SimpleGrantedAuthority(user.getRole().name()));
+              new SimpleGrantedAuthority(user.getRole().getRoleCode()));
           return new User(user.getUsername(), user.getPassword(), authorities);
         })
         .orElseThrow(() -> new UsernameNotFoundException(

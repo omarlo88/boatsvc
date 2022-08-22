@@ -1,5 +1,8 @@
 package ch.challenge.boatsvc.core.api.boat;
 
+import ch.challenge.boatsvc.configuration.annotations.RolesAllowedAdmin;
+import ch.challenge.boatsvc.configuration.annotations.RolesAllowedAnonymous;
+import ch.challenge.boatsvc.configuration.annotations.RolesAllowedUser;
 import ch.challenge.boatsvc.core.common.exception.BaseException;
 import ch.challenge.boatsvc.core.jsonview.View.BoatDetail;
 import ch.challenge.boatsvc.core.jsonview.View.BoatList;
@@ -23,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/boats")
+@RolesAllowedUser
 public class BoatController {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(BoatController.class);
@@ -34,6 +38,7 @@ public class BoatController {
   }
 
   @GetMapping("/ping")
+  @RolesAllowedAnonymous
   public ResponseEntity<String> pingService() {
     LOGGER.debug("[pingService] Ping method invoked for boats with currentTime : {}",
         Instant.now());
@@ -88,6 +93,7 @@ public class BoatController {
   }
 
   @DeleteMapping("/{id}")
+  @RolesAllowedAdmin
   @JsonView({BoatDetail.class})
   public ResponseEntity<Boat> delete(@PathVariable("id") @NotNull Long id) {
     if (id == 0) {
