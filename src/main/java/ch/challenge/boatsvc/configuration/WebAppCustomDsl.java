@@ -36,6 +36,9 @@ public class WebAppCustomDsl extends AbstractHttpConfigurer<WebAppCustomDsl, Htt
 
     // Spring Security doesn’t add Referrer Policy header by default
     http.headers().referrerPolicy(ReferrerPolicyHeaderWriter.ReferrerPolicy.SAME_ORIGIN);
+
+    // CSP unsafe-eval and unsafe-inline for packaging webpack
+    http.headers().contentSecurityPolicy(getContentSecurityPolicy());
   }
 
   @Override
@@ -66,5 +69,13 @@ public class WebAppCustomDsl extends AbstractHttpConfigurer<WebAppCustomDsl, Htt
 
   public static WebAppCustomDsl customDsl() {
     return new WebAppCustomDsl();
+  }
+
+  private String getContentSecurityPolicy() {
+    return "default-src 'none'; " + //
+        "style-src 'self' 'unsafe-eval' 'unsafe-inline'; " + //
+        "script-src 'self' 'unsafe-eval' 'unsafe-inline'; " + //
+        "img-src 'self' data: https: http: content:;" + //
+        "form-action 'none'; ";
   }
 }
