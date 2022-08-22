@@ -6,7 +6,7 @@ spring:
 
 jwt:
   secret-key: 'test'
-  token-expiration-after-days: 10
+  token-expiration-after-days: 1
   token-refresh-expiration-after-days: 30
   token-prefix: 'Bearer '
 
