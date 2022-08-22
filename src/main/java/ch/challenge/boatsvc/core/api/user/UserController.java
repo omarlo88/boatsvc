@@ -163,4 +163,10 @@ public class UserController {
 
     return ResponseEntity.ok(updated);
   }
+
+  @GetMapping("/refresh")
+  @JsonView({UserDetail.class})
+  public ResponseEntity<Void> refrestToken(@RequestBody @Valid User dto) {
+    return null;
+  }
 }
