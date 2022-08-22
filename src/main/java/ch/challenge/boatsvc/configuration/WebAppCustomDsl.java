@@ -31,6 +31,9 @@ public class WebAppCustomDsl extends AbstractHttpConfigurer<WebAppCustomDsl, Htt
     // Block XSS-Protection
     http.headers().xssProtection().block(false);
 
+    // Customize headers: Set-Cookie; X-Frame-Options
+    http.headers().frameOptions().sameOrigin().httpStrictTransportSecurity().disable();
+
     // Spring Security doesn’t add Referrer Policy header by default
     http.headers().referrerPolicy(ReferrerPolicyHeaderWriter.ReferrerPolicy.SAME_ORIGIN);
   }

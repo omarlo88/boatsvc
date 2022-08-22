@@ -22,7 +22,7 @@ public class SecurityConfig {
   private static final String[] AUTH_WHITELIST = {
       // -- Login page spring
       "/boatsvc/api/login",
-      // -- Login page spring
+      // -- h2 path
       "/h2/**",
       // other public endpoints of your API may be appended to this array
   };

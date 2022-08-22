@@ -8,6 +8,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.FilterChain;
@@ -55,8 +56,9 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 
     String access_token = JWT.create()
         .withSubject(userSpring.getUsername())
-        .withExpiresAt(java.sql.Date.valueOf(
-            LocalDate.now().plusDays(this.jwtPropertiesConfig.getTokenExpirationAfterDays())))
+//        .withExpiresAt(java.sql.Date.valueOf(
+//            LocalDate.now().plusDays(this.jwtPropertiesConfig.getTokenExpirationAfterDays())))
+        .withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000))
         .withIssuer(request.getRequestURL().toString())
         .withClaim("roles",
             userSpring.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList())
