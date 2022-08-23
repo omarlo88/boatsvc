@@ -2,9 +2,6 @@ package ch.challenge.boatsvc;
 
 import ch.challenge.boatsvc.core.api.boat.Boat;
 import ch.challenge.boatsvc.core.api.boat.BoatService;
-import ch.challenge.boatsvc.core.api.user.EnumRole;
-import ch.challenge.boatsvc.core.api.user.User;
-import ch.challenge.boatsvc.core.api.user.UserService;
 import java.math.BigDecimal;
 import java.util.List;
 import org.springframework.boot.CommandLineRunner;
@@ -20,7 +17,7 @@ public class BoatAppApplication {
 	}
 
 	@Bean
-	CommandLineRunner run(BoatService boatService, UserService userService) {
+	CommandLineRunner run(BoatService boatService) {// Inject if nessary UserService userService
 		return args -> {
 			final Boat boat1 = Boat.builder()
 					.name("Boat 1")
@@ -47,7 +44,7 @@ public class BoatAppApplication {
 					.build();
 			boatService.createAll(List.of(boat1, boat2, boat3, boat4));
 
-			final User user1 = User.builder()
+			/*final User user1 = User.builder()
 					.username("olo")
 					.email("olo@gmail.com")
 					.role(EnumRole.ADMIN)
@@ -57,23 +54,23 @@ public class BoatAppApplication {
 					.build();
 
 			final User test1 = User.builder()
-					.username("test1")
-					.email("test1@gmail.com")
+					.username("miyalley")
+					.email("michelle@gmail.com")
 					.role(EnumRole.USER)
-					.firstName("Test1")
-					.lastName("Test1")
+					.firstName("Michelle")
+					.lastName("Jalley")
 					.password("123")
 					.build();
 
 			final User test2 = User.builder()
-					.username("test2")
-					.email("test2@gmail.com")
+					.username("papond")
+					.email("dupond@gmail.com")
 					.role(EnumRole.ANONYMOUS)
-					.firstName("Test2")
-					.lastName("Test2")
+					.firstName("Patrick")
+					.lastName("Dupond")
 					.password("123")
 					.build();
-			userService.createAll(List.of(user1, test1, test2));
+			userService.createAll(List.of(user1, test1, test2));*/
 		};
 	}
 }

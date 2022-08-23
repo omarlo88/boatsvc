@@ -14,7 +14,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import lombok.ToString.Exclude;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -35,7 +34,7 @@ public class User extends AbstractBaseDomain {
       = "Username must be between 3 and 25 characters")
   private String username;
 
-  @Exclude
+//  @Exclude
   @NotEmpty
   private String password;
 
