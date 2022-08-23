@@ -11,7 +11,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,7 +51,7 @@ public class RefreshTokenController {
     String refresh_token = authorizationHeader.substring(
         this.jwtPropertiesConfig.getTokenPrefix().length());
 
-    try {
+    try {//TODO Create jwt utilities class is more efficient instead of repeating this code
       JWTVerifier verifier = JWT.require(
           Algorithm.HMAC256(this.jwtPropertiesConfig.getSecretKey().getBytes())).build();
       DecodedJWT decodedJWT = verifier.verify(refresh_token);
@@ -60,7 +60,10 @@ public class RefreshTokenController {
             final String userUsername = user.getUsername();
             String access_token = JWT.create()
                 .withSubject(userUsername)
-                .withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000))
+                .withExpiresAt(java.sql.Date.valueOf(
+                    LocalDate.now()
+                        .plusDays(this.jwtPropertiesConfig.getTokenExpirationAfterDays())))
+//                .withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000)) // For testing
                 .withIssuer(request.getRequestURL().toString())
                 .withClaim("roles", List.of(user.getRole().getRoleCode()))
                 .sign(Algorithm.HMAC256(this.jwtPropertiesConfig.getSecretKey().getBytes()));
