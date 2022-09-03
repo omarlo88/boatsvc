@@ -8,6 +8,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.FilterChain;
@@ -56,8 +57,12 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
     final String username = userSpring.getUsername();
     String access_token = JWT.create()
         .withSubject(username)
-        .withExpiresAt(java.sql.Date.valueOf(
-            LocalDate.now().plusDays(this.jwtPropertiesConfig.getTokenExpirationAfterDays())))
+        .withExpiresAt(LocalDate.now()
+            .plusDays(this.jwtPropertiesConfig.getTokenExpirationAfterDays())
+            .atStartOfDay().atZone(ZoneId.systemDefault())
+            .toInstant()) // Using Instant of java time instead of Date java util
+//        .withExpiresAt(java.sql.Date.valueOf(
+//            LocalDate.now().plusDays(this.jwtPropertiesConfig.getTokenExpirationAfterDays())))
 //        .withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000)) // For testing
         .withIssuer(request.getRequestURL().toString())
         .withClaim("roles",
@@ -66,8 +71,12 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 
     String refresh_token = JWT.create()
         .withSubject(username)
-        .withExpiresAt(java.sql.Date.valueOf(LocalDate.now()
-            .plusDays(this.jwtPropertiesConfig.getTokenRefreshExpirationAfterDays())))
+        .withExpiresAt(LocalDate.now()
+            .plusDays(this.jwtPropertiesConfig.getTokenRefreshExpirationAfterDays())
+            .atStartOfDay().atZone(ZoneId.systemDefault())
+            .toInstant()) // Using Instant of java time instead of Date java util
+//        .withExpiresAt(java.sql.Date.valueOf(LocalDate.now()
+//            .plusDays(this.jwtPropertiesConfig.getTokenRefreshExpirationAfterDays())))
         .withIssuer(request.getRequestURL().toString())
         .sign(Algorithm.HMAC256(this.jwtPropertiesConfig.getSecretKey().getBytes()));
 

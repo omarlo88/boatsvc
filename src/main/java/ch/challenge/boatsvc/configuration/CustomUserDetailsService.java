@@ -3,7 +3,7 @@ package ch.challenge.boatsvc.configuration;
 import ch.challenge.boatsvc.core.api.user.UserService;
 import java.util.Collection;
 import java.util.List;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,7 +15,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(CustomUserDetailsService.class);

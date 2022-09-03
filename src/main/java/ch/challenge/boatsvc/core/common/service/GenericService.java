@@ -4,7 +4,7 @@ import ch.challenge.boatsvc.core.common.domain.AbstractDomain;
 import ch.challenge.boatsvc.core.common.exception.BaseException;
 import ch.challenge.boatsvc.core.common.model.AbstractEntity;
 import java.util.List;
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 public interface GenericService<T, E extends AbstractEntity<T>, D extends AbstractDomain<T>> {
 
