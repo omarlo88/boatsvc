@@ -3,7 +3,11 @@ spring:
     name: Boatsvc
   datasource:
     url: jdbc:h2:mem:db_boat
-
+    hikari:
+      driver-class-name: org.h2.Driver
+      connection-timeout: 60000
+      maximum-pool-size: 5
+      minimum-idle: 3
 jwt:
   secret-key: 'test'
   token-expiration-after-days: 1

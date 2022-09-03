@@ -1,16 +1,21 @@
 package ch.challenge.boatsvc.configuration.properties;
 
-import java.io.Serializable;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.validation.annotation.Validated;
 
 @ConfigurationProperties(prefix = "jwt")
-public class JwtPropertiesConfig implements Serializable {
+@Validated
+public class JwtPropertiesConfig {
 
-  private static final long serialVersionUID = -245817719390402134L;
-
+  @NotEmpty
   private String secretKey;
+  @NotEmpty
   private String tokenPrefix;
+  @NotNull
   private Integer tokenExpirationAfterDays;
+  @NotNull
   private Integer tokenRefreshExpirationAfterDays;
 
   public JwtPropertiesConfig() {

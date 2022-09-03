@@ -39,7 +39,6 @@ public class UserEntity extends AbstractBaseEntity {
   static final String COLUMN_PREFIX = DB_NAMING_PREFIX + TABLE_PREFIX;
   static final String COLUMN_ID_NAME = COLUMN_PREFIX + PK_NAME_SUFFIX;
 
-
   @Column(name = COLUMN_PREFIX + "USERNAME", nullable = false)
   private String username;
 
