@@ -1,0 +1,36 @@
+# Boatsvc deployment file on kubernetes
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment # Kubernetes resource kind we are creating
+metadata:
+  name: boatsvc-deployment
+spec:
+  selector:
+    matchLabels:
+      app: boatsvc-jenkins-k8s
+  replicas: 2 # tells deployment to run 2 pods matching the template
+  template:
+    metadata:
+      labels:
+        app: boatsvc-jenkins-k8s
+    spec:
+      containers:
+        - name: boatsvc-jenkins-k8s
+          image: omarlo/first-repository:latest # image in our docker hub
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80 # port inside container
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: boatsvc-jenkins-k8s-service
+spec:
+  selector:
+    app: boatsvc-jenkins-k8s
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 30000
+  type: NodePort # Si on est dans le cloud on utilise LoadBalancer
