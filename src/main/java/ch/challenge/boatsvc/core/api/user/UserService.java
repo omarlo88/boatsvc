@@ -7,15 +7,16 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import javax.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-@AllArgsConstructor
-public class UserService implements GenericService<Long, UserEntity, User>, UserRepositoryCustom {
+@RequiredArgsConstructor
+public class UserService implements GenericService<Long, UserEntity, User>,
+    UserRepositoryCustom {// He doesn't like UserService implements UserRepository custom => wait and see
 
   private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
 
