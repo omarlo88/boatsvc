@@ -62,6 +62,7 @@
 			<scope>runtime</scope>
 		</dependency>
 
+		<!--Remove if we want to build docker image for embedded h2-->
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
