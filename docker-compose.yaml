@@ -5,7 +5,8 @@ services:
       - "4200:80"
 
   backend:
-    image: boatsvc
+#    image: boatsvc
+    image: boatsvc:latest
     build:
       context: .
       dockerfile: Dockerfile
