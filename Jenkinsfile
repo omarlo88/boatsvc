@@ -36,7 +36,7 @@ pipeline {
         }
         stage('Deploy to k8s') {
               steps {
-                  withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'k8s-config-pwd', namespace: '', serverUrl: '') {
+                  withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'k8s-config-secret-file', namespace: '', serverUrl: '') {
                       sh 'kubectl apply -f deployment-boatsvc.yaml'
                   }
               }
