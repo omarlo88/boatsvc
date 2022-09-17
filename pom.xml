@@ -63,11 +63,11 @@
 		</dependency>
 
 		<!--Remove if we want to build docker image for embedded h2-->
-		<dependency>
+	<!--	<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<scope>test</scope>
-		</dependency>
+		</dependency>-->
 
 		<dependency>
 			<groupId>org.projectlombok</groupId>
