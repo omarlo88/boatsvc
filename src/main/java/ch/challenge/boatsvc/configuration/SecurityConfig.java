@@ -23,7 +23,7 @@ public class SecurityConfig {
       // -- Login page spring
       "/boatsvc/api/login",
       // --refresh-token
-      "/api/token",
+      "/boatsvc/api/token",
       // -- h2 path
       "/h2/**",
       // other public endpoints of your API may be appended to this array

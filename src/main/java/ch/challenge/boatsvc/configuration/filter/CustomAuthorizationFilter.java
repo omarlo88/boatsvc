@@ -51,17 +51,17 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
       } else {
         String authorizationHeader = request.getHeader(AUTHORIZATION);
         if (authorizationHeader == null || !authorizationHeader.startsWith(
-            this.jwtPropertiesConfig.getTokenPrefix())) {
+            this.jwtPropertiesConfig.tokenPrefix())) {
           filterChain.doFilter(request, response);
           return;
         }
 
         String token = authorizationHeader.substring(
-            this.jwtPropertiesConfig.getTokenPrefix().length());
+            this.jwtPropertiesConfig.tokenPrefix().length());
 
         try {
           JWTVerifier verifier = JWT.require(
-              Algorithm.HMAC256(this.jwtPropertiesConfig.getSecretKey().getBytes())).build();
+              Algorithm.HMAC256(this.jwtPropertiesConfig.secretKey().getBytes())).build();
           DecodedJWT decodedJWT = verifier.verify(token);
           String username = decodedJWT.getSubject();
           final List<String> roles = decodedJWT.getClaims().get("roles").asList(String.class);

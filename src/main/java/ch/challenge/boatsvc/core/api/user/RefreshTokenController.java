@@ -43,17 +43,17 @@ public class RefreshTokenController {
       throws IOException {
     String authorizationHeader = request.getHeader(AUTHORIZATION);
     if (authorizationHeader == null || !authorizationHeader.startsWith(
-        this.jwtPropertiesConfig.getTokenPrefix())) {
+        this.jwtPropertiesConfig.tokenPrefix())) {
       LOGGER.debug("[refrestToken] method: Token is missing !!");
       throw new RuntimeException("");
     }
 
     String refresh_token = authorizationHeader.substring(
-        this.jwtPropertiesConfig.getTokenPrefix().length());
+        this.jwtPropertiesConfig.tokenPrefix().length());
 
     try {//TODO Create jwt utilities class is more efficient instead of repeating this code
       JWTVerifier verifier = JWT.require(
-          Algorithm.HMAC256(this.jwtPropertiesConfig.getSecretKey().getBytes())).build();
+          Algorithm.HMAC256(this.jwtPropertiesConfig.secretKey().getBytes())).build();
       DecodedJWT decodedJWT = verifier.verify(refresh_token);
       String username = decodedJWT.getSubject();
       this.userService.getUserByUsername(username).map(user -> {
@@ -62,11 +62,11 @@ public class RefreshTokenController {
                 .withSubject(userUsername)
                 .withExpiresAt(java.sql.Date.valueOf(
                     LocalDate.now()
-                        .plusDays(this.jwtPropertiesConfig.getTokenExpirationAfterDays())))
+                        .plusDays(this.jwtPropertiesConfig.tokenExpirationAfterDays())))
 //                .withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000)) // For testing
                 .withIssuer(request.getRequestURL().toString())
                 .withClaim("roles", List.of(user.getRole().getRoleCode()))
-                .sign(Algorithm.HMAC256(this.jwtPropertiesConfig.getSecretKey().getBytes()));
+                .sign(Algorithm.HMAC256(this.jwtPropertiesConfig.secretKey().getBytes()));
 
             Map<String, String> tokens = new HashMap<>();
             tokens.put("accessToken", access_token);

@@ -58,7 +58,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
     String access_token = JWT.create()
         .withSubject(username)
         .withExpiresAt(LocalDate.now()
-            .plusDays(this.jwtPropertiesConfig.getTokenExpirationAfterDays())
+            .plusDays(this.jwtPropertiesConfig.tokenExpirationAfterDays())
             .atStartOfDay().atZone(ZoneId.systemDefault())
             .toInstant()) // Using Instant of java time instead of Date java util
 //        .withExpiresAt(java.sql.Date.valueOf(
@@ -67,18 +67,18 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         .withIssuer(request.getRequestURL().toString())
         .withClaim("roles",
             userSpring.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList())
-        .sign(Algorithm.HMAC256(this.jwtPropertiesConfig.getSecretKey().getBytes()));
+        .sign(Algorithm.HMAC256(this.jwtPropertiesConfig.secretKey().getBytes()));
 
     String refresh_token = JWT.create()
         .withSubject(username)
         .withExpiresAt(LocalDate.now()
-            .plusDays(this.jwtPropertiesConfig.getTokenRefreshExpirationAfterDays())
+            .plusDays(this.jwtPropertiesConfig.tokenRefreshExpirationAfterDays())
             .atStartOfDay().atZone(ZoneId.systemDefault())
             .toInstant()) // Using Instant of java time instead of Date java util
 //        .withExpiresAt(java.sql.Date.valueOf(LocalDate.now()
 //            .plusDays(this.jwtPropertiesConfig.getTokenRefreshExpirationAfterDays())))
         .withIssuer(request.getRequestURL().toString())
-        .sign(Algorithm.HMAC256(this.jwtPropertiesConfig.getSecretKey().getBytes()));
+        .sign(Algorithm.HMAC256(this.jwtPropertiesConfig.secretKey().getBytes()));
 
 //    response.setHeader("access_token", access_token);
 //    response.setHeader("refresh_token", refresh_token);
