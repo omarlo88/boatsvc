@@ -9,12 +9,15 @@ import java.math.BigDecimal;
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.PostPersist;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -24,6 +27,7 @@ import lombok.ToString;
 @ToString
 @Table(name = BoatEntity.TBL_NAME)
 @AttributeOverride(name = DEFAULT_PK, column = @Column(name = BoatEntity.COLUMN_ID_NAME))
+@EntityListeners(AuditingEntityListener.class)
 public class BoatEntity extends AbstractBaseEntity {
 
   private static final long serialVersionUID = -4224495297605902484L;
