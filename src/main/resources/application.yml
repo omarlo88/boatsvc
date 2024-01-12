@@ -16,6 +16,7 @@ jwt:
 
 logging.level:
   ch.challenge: debug
+
 ---
 spring:
   config:
